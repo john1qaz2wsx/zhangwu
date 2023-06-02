@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ClientMessageMapper">
+    
+    <resultMap type="ClientMessage" id="ClientMessageResult">
+        <result property="id"    column="id"    />
+        <result property="clientName"    column="client_name"    />
+        <result property="clientCode"    column="client_code"    />
+        <result property="clientType"    column="client_type"    />
+        <result property="clientPhone"    column="client_phone"    />
+        <result property="clientLocation"    column="client_location"    />
+        <result property="clientRemark"    column="client_remark"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+    </resultMap>
+
+    <sql id="selectClientMessageVo">
+        select id, client_name, client_code, client_type, client_phone, client_location, client_remark, user_id, user_name, create_time, update_time, delete_flag from client_message
+    </sql>
+
+    <select id="selectClientMessageList" parameterType="ClientMessage" resultMap="ClientMessageResult">
+        <include refid="selectClientMessageVo"/>
+        <where>  
+            <if test="clientName != null  and clientName != ''"> and client_name like concat('%', #{clientName}, '%')</if>
+            <if test="clientCode != null  and clientCode != ''"> and client_code = #{clientCode}</if>
+            <if test="clientType != null  and clientType != ''"> and client_type = #{clientType}</if>
+            <if test="clientPhone != null  and clientPhone != ''"> and client_phone = #{clientPhone}</if>
+            <if test="clientLocation != null  and clientLocation != ''"> and client_location = #{clientLocation}</if>
+            <if test="clientRemark != null  and clientRemark != ''"> and client_remark = #{clientRemark}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="deleteFlag != null and deleteFlag != '' "> and delete_flag = #{deleteFlag}</if>
+            <if test="deleteFlag == null "> and delete_flag = '0'</if>
+        </where>
+    </select>
+    
+    <select id="selectClientMessageById" parameterType="Long" resultMap="ClientMessageResult">
+        <include refid="selectClientMessageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertClientMessage" parameterType="ClientMessage" useGeneratedKeys="true" keyProperty="id">
+        insert into client_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clientName != null">client_name,</if>
+            <if test="clientCode != null">client_code,</if>
+            <if test="clientType != null">client_type,</if>
+            <if test="clientPhone != null">client_phone,</if>
+            <if test="clientLocation != null">client_location,</if>
+            <if test="clientRemark != null">client_remark,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="deleteFlag != null">delete_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clientName != null">#{clientName},</if>
+            <if test="clientCode != null">#{clientCode},</if>
+            <if test="clientType != null">#{clientType},</if>
+            <if test="clientPhone != null">#{clientPhone},</if>
+            <if test="clientLocation != null">#{clientLocation},</if>
+            <if test="clientRemark != null">#{clientRemark},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="deleteFlag != null">#{deleteFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateClientMessage" parameterType="ClientMessage">
+        update client_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clientName != null">client_name = #{clientName},</if>
+            <if test="clientCode != null">client_code = #{clientCode},</if>
+            <if test="clientType != null">client_type = #{clientType},</if>
+            <if test="clientPhone != null">client_phone = #{clientPhone},</if>
+            <if test="clientLocation != null">client_location = #{clientLocation},</if>
+            <if test="clientRemark != null">client_remark = #{clientRemark},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="deleteFlag != null">delete_flag = #{deleteFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClientMessageById" parameterType="Long">
+        delete from client_message where id = #{id}
+    </delete>
+
+    <delete id="deleteClientMessageByIds" parameterType="String">
+        delete from client_message where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

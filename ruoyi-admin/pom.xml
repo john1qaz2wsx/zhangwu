@@ -67,6 +67,12 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+        <!-- 客户信息-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>CustomerInformation</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
